@@ -1502,7 +1502,7 @@ export class Client extends GameShell {
                 this.p11?.centreStringTag(this.onDemand.message, w / 2, extraY, 0x75a9a9, true);
             }
 
-            this.b12?.centreStringTag('Welcome to RuneScape', w / 2, y, Colour.YELLOW, true);
+            this.b12?.centreStringTag('Welcome to our custom RuneScape', w / 2, y, Colour.YELLOW, true);
             y += 30;
 
             let x = ((w / 2) | 0) - 80;
