@@ -14,12 +14,15 @@ export default class Pix3D extends Pix2D {
     static cosTable: Int32Array = new Int32Array(2048);
     static colourTable: Int32Array = new Int32Array(65536);
 
-    static textures: (Pix8 | null)[] = new TypedArray1d(50, null);
-    private static texTrans: boolean[] = new TypedArray1d(50, false);
-    private static texAverage: Int32Array = new Int32Array(50);
-    static activeTexels: (Int32Array | null)[] = new TypedArray1d(50, null);
-    static texCycle: Int32Array = new Int32Array(50);
-    static texPal: (Int32Array | null)[] = new TypedArray1d(50, null);
+    // custom: raised from 50 to fit new textures
+    static readonly MAX_TEXTURES: number = 64;
+
+    static textures: (Pix8 | null)[] = new TypedArray1d(Pix3D.MAX_TEXTURES, null);
+    private static texTrans: boolean[] = new TypedArray1d(Pix3D.MAX_TEXTURES, false);
+    private static texAverage: Int32Array = new Int32Array(Pix3D.MAX_TEXTURES);
+    static activeTexels: (Int32Array | null)[] = new TypedArray1d(Pix3D.MAX_TEXTURES, null);
+    static texCycle: Int32Array = new Int32Array(Pix3D.MAX_TEXTURES);
+    static texPal: (Int32Array | null)[] = new TypedArray1d(Pix3D.MAX_TEXTURES, null);
     static numTextures: number = 0;
     static originX: number = 0;
     static originY: number = 0;
@@ -91,7 +94,7 @@ export default class Pix3D extends Pix2D {
     static unpackTextures(textures: JagFile): void {
         this.numTextures = 0;
 
-        for (let i: number = 0; i < 50; i++) {
+        for (let i: number = 0; i < Pix3D.MAX_TEXTURES; i++) {
             try {
                 this.textures[i] = Pix8.depack(textures, i.toString());
 
@@ -287,7 +290,7 @@ export default class Pix3D extends Pix2D {
             }
         }
 
-        for (let id: number = 0; id < 50; id++) {
+        for (let id: number = 0; id < Pix3D.MAX_TEXTURES; id++) {
             const texture: Pix8 | null = this.textures[id];
             if (!texture) {
                 continue;
@@ -305,7 +308,7 @@ export default class Pix3D extends Pix2D {
             }
         }
 
-        for (let id: number = 0; id < 50; id++) {
+        for (let id: number = 0; id < Pix3D.MAX_TEXTURES; id++) {
             this.pushTexture(id);
         }
     }
